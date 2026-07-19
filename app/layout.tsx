@@ -10,8 +10,8 @@ const sarabun = Sarabun({
 });
 
 export const metadata: Metadata = {
-  title: "สภาเภสัชกรรม - ลงชื่อเข้าใช้เครือข่าย",
-  description: "The Pharmacy Council of Thailand - Guest WiFi Login Portal",
+  title: "สภาเภสัชกรรม - เครือข่าย Guest WiFi",
+  description: "The Pharmacy Council of Thailand - Guest WiFi Portal",
 };
 
 export default function RootLayout({

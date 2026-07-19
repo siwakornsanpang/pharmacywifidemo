@@ -1,15 +1,81 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: var(--font-sarabun), 'Sarabun', sans-serif;
+  --font-sans: var(--font-sarabun), "Sarabun", sans-serif;
+  --color-brand: #737300;
+  --color-brand-muted: #8a8a3a;
+  --color-page: #faf8f5;
+  --color-border: #e2dfd8;
+  --color-border-input: #d5d2c9;
+  --color-muted: #8c8a84;
+  --color-body: #4a4842;
 }
 
 body {
-  background: #f5f0e8;
+  background: var(--color-page);
   color: #333;
   min-height: 100vh;
+  font-family: var(--font-sans);
 }
 
 input::placeholder {
   color: #aaa;
+}
+
+.brand-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+.title-text-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.guest-wifi-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #737300;
+  letter-spacing: 0.1em;
+  margin: 4px 0 0 0;
+  text-transform: uppercase;
+}
+
+.decor-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  width: 100%;
+  max-width: 280px;
+  flex-shrink: 0;
+}
+
+@media (min-width: 1025px) {
+  .brand-section {
+    flex-direction: row;
+    text-align: left;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 12px;
+  }
+
+  .title-text-group {
+    align-items: flex-start;
+  }
+
+  .guest-wifi-label {
+    display: none;
+  }
+
+  .decor-divider {
+    display: none;
+  }
 }
