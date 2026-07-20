@@ -9,6 +9,7 @@ import {
   ConsentCheckbox,
   Field,
 } from "./components/AuthShell";
+import { useLocale } from "./components/LocaleProvider";
 import { usePortal } from "./components/PortalProvider";
 import {
   EyeIcon,
@@ -20,6 +21,7 @@ import {
 
 export default function LoginPage() {
   const portal = usePortal();
+  const { t } = useLocale();
   const [showPassword, setShowPassword] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [username, setUsername] = useState("");
@@ -27,10 +29,10 @@ export default function LoginPage() {
 
   return (
     <AuthShell>
-      <AuthCard title="ลงชื่อเข้าใช้เครือข่าย">
+      <AuthCard title={t.loginTitle}>
         <Field
           icon={<UserIcon />}
-          placeholder="ชื่อผู้ใช้งาน"
+          placeholder={t.username}
           value={username}
           onChange={setUsername}
         />
@@ -38,7 +40,7 @@ export default function LoginPage() {
         <Field
           icon={<LockIcon />}
           type={showPassword ? "text" : "password"}
-          placeholder="รหัสผ่าน"
+          placeholder={t.password}
           value={password}
           onChange={setPassword}
           rightSlot={
@@ -55,7 +57,7 @@ export default function LoginPage() {
                 alignItems: "center",
                 color: "#8C8A84",
               }}
-              aria-label={showPassword ? "ซ่อนรหัสผ่าน" : "แสดงรหัสผ่าน"}
+              aria-label={showPassword ? t.hidePassword : t.showPassword}
             >
               {showPassword ? <EyeOffIcon /> : <EyeIcon />}
             </button>
@@ -81,7 +83,7 @@ export default function LoginPage() {
             boxShadow: "0 2px 4px rgba(115,115,0,0.12)",
           }}
         >
-          ลงชื่อเข้าใช้
+          {t.signIn}
         </button>
 
         {portal.showMicrosoftLogin ? (
@@ -106,7 +108,7 @@ export default function LoginPage() {
             }}
           >
             <MicrosoftIcon />
-            ลงชื่อเข้าใช้ด้วย Microsoft
+            {t.signInMicrosoft}
           </button>
         ) : null}
 
@@ -119,7 +121,7 @@ export default function LoginPage() {
           }}
         >
           <div style={{ flex: 1, height: 1, background: "#E2DFD8" }} />
-          <span style={{ fontSize: 13, color: "#8C8A84" }}>หรือ</span>
+          <span style={{ fontSize: 13, color: "#8C8A84" }}>{t.or}</span>
           <div style={{ flex: 1, height: 1, background: "#E2DFD8" }} />
         </div>
 
@@ -142,7 +144,7 @@ export default function LoginPage() {
             boxSizing: "border-box",
           }}
         >
-          สมัครใช้งาน
+          {t.register}
         </Link>
       </AuthCard>
     </AuthShell>

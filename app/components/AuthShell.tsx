@@ -2,7 +2,8 @@
 
 import { Leaf } from "lucide-react";
 import Image from "next/image";
-import { useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
+import { useLocale } from "./LocaleProvider";
 import { usePortal } from "./PortalProvider";
 import {
   ContactPhoneIcon,
@@ -13,7 +14,7 @@ import {
 const C = "#737300";
 
 function LanguageSwitcher() {
-  const [lang, setLang] = useState<"th" | "en">("th");
+  const { locale, setLocale } = useLocale();
 
   return (
     <div
@@ -36,13 +37,13 @@ function LanguageSwitcher() {
       >
         <button
           type="button"
-          onClick={() => setLang("th")}
+          onClick={() => setLocale("th")}
           style={{
             padding: "4px 14px",
             fontSize: 12,
             fontWeight: 500,
-            background: lang === "th" ? "#EFEDE8" : "#FFF",
-            color: lang === "th" ? C : "#8C8A84",
+            background: locale === "th" ? "#EFEDE8" : "#FFF",
+            color: locale === "th" ? C : "#8C8A84",
             border: "none",
             borderRight: "1.2px solid #E2DFD8",
             cursor: "pointer",
@@ -53,13 +54,13 @@ function LanguageSwitcher() {
         </button>
         <button
           type="button"
-          onClick={() => setLang("en")}
+          onClick={() => setLocale("en")}
           style={{
             padding: "4px 14px",
             fontSize: 12,
             fontWeight: 500,
-            background: lang === "en" ? "#EFEDE8" : "transparent",
-            color: lang === "en" ? C : "#8C8A84",
+            background: locale === "en" ? "#EFEDE8" : "transparent",
+            color: locale === "en" ? C : "#8C8A84",
             border: "none",
             cursor: "pointer",
             fontFamily: "inherit",
@@ -74,6 +75,7 @@ function LanguageSwitcher() {
 
 function BrandHeader() {
   const portal = usePortal();
+  const { t } = useLocale();
 
   return (
     <>
@@ -89,7 +91,7 @@ function BrandHeader() {
         >
           <Image
             src="/logo.png"
-            alt="สภาเภสัชกรรม"
+            alt={t.logoAlt}
             fill
             sizes="75px"
             style={{ objectFit: "contain" }}
@@ -108,7 +110,7 @@ function BrandHeader() {
               letterSpacing: "0.01em",
             }}
           >
-            สภาเภสัชกรรม
+            {t.brandName}
           </h1>
           <p
             style={{
@@ -119,7 +121,7 @@ function BrandHeader() {
               margin: "2px 0 0 0",
             }}
           >
-            THE PHARMACY COUNCIL OF THAILAND
+            {t.brandNameEn}
           </p>
         </div>
       </div>
@@ -172,6 +174,8 @@ function BrandHeader() {
 }
 
 function Footer() {
+  const { t } = useLocale();
+
   const linkStyle = {
     display: "flex",
     flexDirection: "column" as const,
@@ -208,21 +212,21 @@ function Footer() {
         >
           <a href="#" style={linkStyle}>
             <InfoIcon />
-            เกี่ยวกับเรา
+            {t.aboutUs}
           </a>
 
           <div style={{ height: 24, width: 1, background: "#E2DFD8" }} />
 
           <a href="#" style={linkStyle}>
             <DocumentIcon />
-            นโยบายความเป็นส่วนตัว
+            {t.privacyPolicy}
           </a>
 
           <div style={{ height: 24, width: 1, background: "#E2DFD8" }} />
 
           <a href="#" style={linkStyle}>
             <ContactPhoneIcon />
-            ติดต่อเรา
+            {t.contactUs}
           </a>
         </div>
       </div>
@@ -395,6 +399,8 @@ export function ConsentCheckbox({
   checked: boolean;
   onChange: (checked: boolean) => void;
 }) {
+  const { t } = useLocale();
+
   return (
     <label
       style={{
@@ -425,8 +431,7 @@ export function ConsentCheckbox({
           userSelect: "none",
         }}
       >
-        ข้าพเจ้าได้อ่านและยอมรับเงื่อนไขการใช้งาน
-        และนโยบายคุ้มครองข้อมูลส่วนบุคคล
+        {t.consent}
       </span>
     </label>
   );

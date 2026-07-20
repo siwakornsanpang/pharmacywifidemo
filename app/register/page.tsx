@@ -9,6 +9,7 @@ import {
   ConsentCheckbox,
   Field,
 } from "../components/AuthShell";
+import { useLocale } from "../components/LocaleProvider";
 import {
   EmailIcon,
   GlobeIcon,
@@ -18,6 +19,7 @@ import {
 } from "../components/icons";
 
 export default function RegisterPage() {
+  const { t } = useLocale();
   const [agreed, setAgreed] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -28,42 +30,42 @@ export default function RegisterPage() {
 
   return (
     <AuthShell>
-      <AuthCard title="สมัครใช้งานเครือข่าย">
+      <AuthCard title={t.registerTitle}>
         <Field
           icon={<UserIcon />}
-          placeholder="ชื่อ"
+          placeholder={t.firstName}
           value={firstName}
           onChange={setFirstName}
         />
         <Field
           icon={<UserIcon />}
-          placeholder="นามสกุล"
+          placeholder={t.lastName}
           value={lastName}
           onChange={setLastName}
         />
         <Field
           icon={<IdCardIcon />}
-          placeholder="เลขบัตรประชาชน"
+          placeholder={t.nationalId}
           value={nationalId}
           onChange={setNationalId}
         />
         <Field
           icon={<GlobeIcon />}
-          placeholder="หรือ Passport สำหรับชาวต่างชาติ"
+          placeholder={t.passport}
           value={passport}
           onChange={setPassport}
         />
         <Field
           icon={<PhoneIcon />}
           type="tel"
-          placeholder="เบอร์โทรศัพท์"
+          placeholder={t.phone}
           value={phone}
           onChange={setPhone}
         />
         <Field
           icon={<EmailIcon />}
           type="email"
-          placeholder="E-mail"
+          placeholder={t.email}
           value={email}
           onChange={setEmail}
         />
@@ -87,7 +89,7 @@ export default function RegisterPage() {
             boxShadow: "0 2px 4px rgba(115,115,0,0.12)",
           }}
         >
-          สมัครใช้งาน
+          {t.register}
         </button>
 
         <Link
@@ -109,7 +111,7 @@ export default function RegisterPage() {
             boxSizing: "border-box",
           }}
         >
-          กลับไปลงชื่อเข้าใช้
+          {t.backToSignIn}
         </Link>
       </AuthCard>
     </AuthShell>

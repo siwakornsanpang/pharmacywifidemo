@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Sarabun } from "next/font/google";
 import { cookies, headers } from "next/headers";
+import { LocaleProvider } from "./components/LocaleProvider";
 import { PortalProvider } from "./components/PortalProvider";
 import { getPortalConfig, resolvePortalMode } from "@/lib/portal";
 import "./globals.css";
@@ -42,7 +43,9 @@ export default async function RootLayout({
   return (
     <html lang="th" className={`${sarabun.variable} ${sarabun.className}`}>
       <body>
-        <PortalProvider mode={mode}>{children}</PortalProvider>
+        <PortalProvider mode={mode}>
+          <LocaleProvider>{children}</LocaleProvider>
+        </PortalProvider>
       </body>
     </html>
   );
