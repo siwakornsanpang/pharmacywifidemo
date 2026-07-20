@@ -1,26 +1,3 @@
-export function LeafIcon({
-  width = 22,
-  height = 12,
-  fill = "currentColor",
-}: {
-  width?: number;
-  height?: number;
-  fill?: string;
-}) {
-  return (
-    <svg width={width} height={height} viewBox="0 0 24 14" fill={fill} aria-hidden>
-      <path
-        d="M11.5 12.5C7 11.5 5 7 5 7S8.5 7 11 9.5c1.2 1.2 1.1 2.5.5 3z"
-        opacity="0.9"
-      />
-      <path
-        d="M12.5 12.5C17 11.5 19 7 19 7S15.5 7 13 9.5c-1.2 1.2-1.1 2.5-.5 3z"
-        opacity="0.9"
-      />
-    </svg>
-  );
-}
-
 export function UserIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>

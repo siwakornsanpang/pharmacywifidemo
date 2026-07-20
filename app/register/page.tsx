@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import {
   AuthCard,
@@ -81,12 +82,35 @@ export default function RegisterPage() {
             fontSize: 15,
             fontWeight: 600,
             cursor: "pointer",
+            marginBottom: 10,
             fontFamily: "inherit",
             boxShadow: "0 2px 4px rgba(115,115,0,0.12)",
           }}
         >
           สมัครใช้งาน
         </button>
+
+        <Link
+          href="/"
+          style={{
+            width: "100%",
+            padding: "12px 0",
+            borderRadius: 8,
+            border: `1.2px solid ${C}`,
+            background: "#FFF",
+            color: C,
+            fontSize: 15,
+            fontWeight: 600,
+            cursor: "pointer",
+            fontFamily: "inherit",
+            textDecoration: "none",
+            display: "block",
+            textAlign: "center",
+            boxSizing: "border-box",
+          }}
+        >
+          กลับไปลงชื่อเข้าใช้
+        </Link>
       </AuthCard>
     </AuthShell>
   );

@@ -1,12 +1,12 @@
 "use client";
 
+import { Leaf } from "lucide-react";
 import Image from "next/image";
 import { useState, type ReactNode } from "react";
 import {
   ContactPhoneIcon,
   DocumentIcon,
   InfoIcon,
-  LeafIcon,
 } from "./icons";
 
 const C = "#737300";
@@ -130,7 +130,21 @@ function BrandHeader() {
             background: "linear-gradient(to left, #C5C2B9, rgba(197, 194, 185, 0))",
           }}
         />
-        <LeafIcon fill={C} />
+        <span
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            color: C,
+          }}
+          aria-hidden
+        >
+          <Leaf
+            size={14}
+            strokeWidth={1.75}
+            style={{ transform: "scaleX(-1) rotate(-25deg)", marginRight: -2 }}
+          />
+          <Leaf size={14} strokeWidth={1.75} style={{ transform: "rotate(25deg)" }} />
+        </span>
         <div
           style={{
             flex: 1,
@@ -289,7 +303,13 @@ export function AuthCard({
             background: "linear-gradient(to left, #E2DFD8, rgba(226, 223, 216, 0))",
           }}
         />
-        <LeafIcon width={14} height={8} fill={C} />
+        <Leaf
+          size={14}
+          strokeWidth={1.75}
+          color={C}
+          style={{ transform: "rotate(20deg)" }}
+          aria-hidden
+        />
         <div
           style={{
             width: 24,
