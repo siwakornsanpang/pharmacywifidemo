@@ -9,6 +9,7 @@ import {
   ConsentCheckbox,
   Field,
 } from "./components/AuthShell";
+import { usePortal } from "./components/PortalProvider";
 import {
   EyeIcon,
   EyeOffIcon,
@@ -18,6 +19,7 @@ import {
 } from "./components/icons";
 
 export default function LoginPage() {
+  const portal = usePortal();
   const [showPassword, setShowPassword] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [username, setUsername] = useState("");
@@ -74,7 +76,7 @@ export default function LoginPage() {
             fontSize: 15,
             fontWeight: 600,
             cursor: "pointer",
-            marginBottom: 10,
+            marginBottom: portal.showMicrosoftLogin ? 10 : 16,
             fontFamily: "inherit",
             boxShadow: "0 2px 4px rgba(115,115,0,0.12)",
           }}
@@ -82,29 +84,31 @@ export default function LoginPage() {
           ลงชื่อเข้าใช้
         </button>
 
-        <button
-          type="button"
-          style={{
-            width: "100%",
-            padding: "12px 0",
-            borderRadius: 8,
-            border: "1.2px solid #D5D2C9",
-            background: "#FFF",
-            color: C,
-            fontSize: 14,
-            fontWeight: 500,
-            cursor: "pointer",
-            marginBottom: 16,
-            fontFamily: "inherit",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 10,
-          }}
-        >
-          <MicrosoftIcon />
-          ลงชื่อเข้าใช้ด้วย Microsoft
-        </button>
+        {portal.showMicrosoftLogin ? (
+          <button
+            type="button"
+            style={{
+              width: "100%",
+              padding: "12px 0",
+              borderRadius: 8,
+              border: "1.2px solid #D5D2C9",
+              background: "#FFF",
+              color: C,
+              fontSize: 14,
+              fontWeight: 500,
+              cursor: "pointer",
+              marginBottom: 16,
+              fontFamily: "inherit",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 10,
+            }}
+          >
+            <MicrosoftIcon />
+            ลงชื่อเข้าใช้ด้วย Microsoft
+          </button>
+        ) : null}
 
         <div
           style={{

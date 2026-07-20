@@ -3,6 +3,7 @@
 import { Leaf } from "lucide-react";
 import Image from "next/image";
 import { useState, type ReactNode } from "react";
+import { usePortal } from "./PortalProvider";
 import {
   ContactPhoneIcon,
   DocumentIcon,
@@ -72,6 +73,8 @@ function LanguageSwitcher() {
 }
 
 function BrandHeader() {
+  const portal = usePortal();
+
   return (
     <>
       <div className="brand-section">
@@ -118,40 +121,51 @@ function BrandHeader() {
           >
             THE PHARMACY COUNCIL OF THAILAND
           </p>
-          <span className="guest-wifi-label">GUEST WIFI</span>
         </div>
       </div>
 
-      <div className="decor-divider">
-        <div
-          style={{
-            flex: 1,
-            height: 1,
-            background: "linear-gradient(to left, #C5C2B9, rgba(197, 194, 185, 0))",
-          }}
-        />
-        <span
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            color: C,
-          }}
-          aria-hidden
-        >
-          <Leaf
-            size={14}
-            strokeWidth={1.75}
-            style={{ transform: "scaleX(-1) rotate(-25deg)", marginRight: -2 }}
+      <div className="portal-badge">
+        <div className="decor-divider">
+          <div
+            style={{
+              flex: 1,
+              height: 1,
+              background:
+                "linear-gradient(to left, #C5C2B9, rgba(197, 194, 185, 0))",
+            }}
           />
-          <Leaf size={14} strokeWidth={1.75} style={{ transform: "rotate(25deg)" }} />
-        </span>
-        <div
-          style={{
-            flex: 1,
-            height: 1,
-            background: "linear-gradient(to right, #C5C2B9, rgba(197, 194, 185, 0))",
-          }}
-        />
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              color: C,
+            }}
+            aria-hidden
+          >
+            <Leaf
+              size={14}
+              strokeWidth={1.75}
+              style={{
+                transform: "scaleX(-1) rotate(-25deg)",
+                marginRight: -2,
+              }}
+            />
+            <Leaf
+              size={14}
+              strokeWidth={1.75}
+              style={{ transform: "rotate(25deg)" }}
+            />
+          </span>
+          <div
+            style={{
+              flex: 1,
+              height: 1,
+              background:
+                "linear-gradient(to right, #C5C2B9, rgba(197, 194, 185, 0))",
+            }}
+          />
+        </div>
+        <span className="portal-wifi-label">{portal.label}</span>
       </div>
     </>
   );

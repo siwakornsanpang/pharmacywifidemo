@@ -37,13 +37,23 @@ input::placeholder {
   align-items: center;
 }
 
-.guest-wifi-label {
+.portal-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 280px;
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+
+.portal-wifi-label {
   display: block;
   font-size: 13px;
   font-weight: 600;
   color: #737300;
   letter-spacing: 0.1em;
-  margin: 4px 0 0 0;
+  margin-top: 6px;
   text-transform: uppercase;
 }
 
@@ -52,10 +62,7 @@ input::placeholder {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  margin-bottom: 16px;
   width: 100%;
-  max-width: 280px;
-  flex-shrink: 0;
 }
 
 @media (min-width: 1025px) {
@@ -69,13 +76,5 @@ input::placeholder {
 
   .title-text-group {
     align-items: flex-start;
-  }
-
-  .guest-wifi-label {
-    display: none;
-  }
-
-  .decor-divider {
-    display: none;
   }
 }

@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Sarabun } from "next/font/google";
+import { cookies, headers } from "next/headers";
+import { PortalProvider } from "./components/PortalProvider";
+import { getPortalConfig, resolvePortalMode } from "@/lib/portal";
 import "./globals.css";
 
 const sarabun = Sarabun({
@@ -9,19 +12,38 @@ const sarabun = Sarabun({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "สภาเภสัชกรรม - เครือข่าย Guest WiFi",
-  description: "The Pharmacy Council of Thailand - Guest WiFi Portal",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const headerStore = await headers();
+  const cookieStore = await cookies();
+  const mode = resolvePortalMode(
+    headerStore.get("host") ?? "",
+    cookieStore.get("portal-mode")?.value,
+  );
+  const portal = getPortalConfig(mode);
 
-export default function RootLayout({
+  return {
+    title: portal.title,
+    description: portal.description,
+  };
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headerStore = await headers();
+  const cookieStore = await cookies();
+  const mode = resolvePortalMode(
+    headerStore.get("host") ?? "",
+    cookieStore.get("portal-mode")?.value,
+  );
+
   return (
     <html lang="th" className={`${sarabun.variable} ${sarabun.className}`}>
-      <body>{children}</body>
+      <body>
+        <PortalProvider mode={mode}>{children}</PortalProvider>
+      </body>
     </html>
   );
 }
