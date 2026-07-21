@@ -2,14 +2,9 @@
 
 import { Leaf } from "lucide-react";
 import Image from "next/image";
-import { type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useLocale } from "./LocaleProvider";
 import { usePortal } from "./PortalProvider";
-import {
-  ContactPhoneIcon,
-  DocumentIcon,
-  InfoIcon,
-} from "./icons";
 
 const C = "#737300";
 
@@ -173,68 +168,6 @@ function BrandHeader() {
   );
 }
 
-function Footer() {
-  const { t } = useLocale();
-
-  const linkStyle = {
-    display: "flex",
-    flexDirection: "column" as const,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 4,
-    color: "#4A4842",
-    textDecoration: "none",
-    fontSize: 11,
-    fontWeight: 500,
-    flex: 1,
-    textAlign: "center" as const,
-    lineHeight: 1.3,
-    whiteSpace: "nowrap" as const,
-  };
-
-  return (
-    <footer
-      style={{
-        background: "#FFF",
-        borderTop: "1.2px solid #EBE7DF",
-        flexShrink: 0,
-      }}
-    >
-      <div style={{ padding: "12px 16px" }}>
-        <div
-          style={{
-            maxWidth: 500,
-            margin: "0 auto",
-            display: "flex",
-            justifyContent: "space-around",
-            alignItems: "center",
-          }}
-        >
-          <a href="#" style={linkStyle}>
-            <InfoIcon />
-            {t.aboutUs}
-          </a>
-
-          <div style={{ height: 24, width: 1, background: "#E2DFD8" }} />
-
-          <a href="#" style={linkStyle}>
-            <DocumentIcon />
-            {t.privacyPolicy}
-          </a>
-
-          <div style={{ height: 24, width: 1, background: "#E2DFD8" }} />
-
-          <a href="#" style={linkStyle}>
-            <ContactPhoneIcon />
-            {t.contactUs}
-          </a>
-        </div>
-      </div>
-      <div style={{ height: 4, background: C }} />
-    </footer>
-  );
-}
-
 export function AuthShell({ children }: { children: ReactNode }) {
   return (
     <div
@@ -257,7 +190,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          padding: "48px 16px 16px",
+          padding: "48px 16px 24px",
           minHeight: 0,
           overflowY: "auto",
         }}
@@ -265,8 +198,6 @@ export function AuthShell({ children }: { children: ReactNode }) {
         <BrandHeader />
         {children}
       </div>
-
-      <Footer />
     </div>
   );
 }
@@ -274,9 +205,11 @@ export function AuthShell({ children }: { children: ReactNode }) {
 export function AuthCard({
   title,
   children,
+  topSlot,
 }: {
   title: string;
   children: ReactNode;
+  topSlot?: ReactNode;
 }) {
   return (
     <div
@@ -293,6 +226,8 @@ export function AuthCard({
         flexShrink: 0,
       }}
     >
+      {topSlot}
+
       <h2
         style={{
           textAlign: "center",
@@ -349,6 +284,7 @@ export function Field({
   value,
   onChange,
   rightSlot,
+  marginBottom = 12,
 }: {
   icon: ReactNode;
   type?: string;
@@ -356,38 +292,128 @@ export function Field({
   value: string;
   onChange: (value: string) => void;
   rightSlot?: ReactNode;
+  marginBottom?: number;
 }) {
+  const isPassword = type === "password";
+
   return (
     <div
+      className="field-wrap"
       style={{
         display: "flex",
         alignItems: "center",
         border: "1px solid #D5D2C9",
         borderRadius: 8,
-        padding: "10px 14px",
-        marginBottom: 12,
+        padding: "12px 14px",
+        marginBottom,
         background: "#FFF",
         color: "#8C8A84",
       }}
     >
-      <span style={{ flexShrink: 0, marginRight: 10, display: "flex" }}>{icon}</span>
-      <input
-        type={type}
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
+      <span
         style={{
-          flex: 1,
-          border: "none",
-          outline: "none",
-          fontSize: 14,
-          background: "transparent",
-          color: "#333",
-          fontFamily: "inherit",
-          minWidth: 0,
+          flexShrink: 0,
+          marginRight: 10,
+          display: "flex",
+          alignItems: "center",
         }}
-      />
-      {rightSlot}
+      >
+        {icon}
+      </span>
+      <div style={{ flex: 1, position: "relative", minWidth: 0 }}>
+        {!value ? (
+          <span
+            aria-hidden
+            className="field-placeholder"
+            style={{
+              position: "absolute",
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              display: "flex",
+              alignItems: "center",
+              fontSize: 14,
+              lineHeight: 2,
+              color: "#aaa",
+              pointerEvents: "none",
+              whiteSpace: "nowrap",
+              overflow: "visible",
+              paddingBottom: 3,
+            }}
+          >
+            {placeholder}
+          </span>
+        ) : null}
+        {isPassword ? (
+          <input
+            type={type}
+            aria-label={placeholder}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            className="field-input"
+            style={{
+              width: "100%",
+              border: "none",
+              outline: "none",
+              fontSize: 14,
+              lineHeight: 2,
+              padding: "2px 0 4px",
+              margin: 0,
+              background: "transparent",
+              color: "#333",
+              fontFamily: "inherit",
+              boxSizing: "border-box",
+              position: "relative",
+              zIndex: 1,
+            }}
+          />
+        ) : (
+          <textarea
+            aria-label={placeholder}
+            value={value}
+            rows={1}
+            inputMode={
+              type === "tel" ? "tel" : type === "email" ? "email" : undefined
+            }
+            onChange={(e) => onChange(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") e.preventDefault();
+            }}
+            className="field-input"
+            style={{
+              width: "100%",
+              border: "none",
+              outline: "none",
+              fontSize: 14,
+              lineHeight: 2,
+              padding: "2px 0 4px",
+              margin: 0,
+              background: "transparent",
+              color: "#333",
+              fontFamily: "inherit",
+              boxSizing: "border-box",
+              position: "relative",
+              zIndex: 1,
+              resize: "none",
+              overflow: "visible",
+              display: "block",
+              minHeight: 28,
+            }}
+          />
+        )}
+      </div>
+      {rightSlot ? (
+        <span
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexShrink: 0,
+          }}
+        >
+          {rightSlot}
+        </span>
+      ) : null}
     </div>
   );
 }
@@ -400,40 +426,215 @@ export function ConsentCheckbox({
   onChange: (checked: boolean) => void;
 }) {
   const { t } = useLocale();
+  const [open, setOpen] = useState(false);
+  const [reachedBottom, setReachedBottom] = useState(false);
+  const bodyRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) {
+      setReachedBottom(false);
+      return;
+    }
+
+    const el = bodyRef.current;
+    if (!el) return;
+
+    const checkScroll = () => {
+      const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 8;
+      setReachedBottom(atBottom);
+    };
+
+    checkScroll();
+    el.addEventListener("scroll", checkScroll, { passive: true });
+    window.addEventListener("resize", checkScroll);
+
+    return () => {
+      el.removeEventListener("scroll", checkScroll);
+      window.removeEventListener("resize", checkScroll);
+    };
+  }, [open, t.termsBody]);
+
+  const closeModal = () => setOpen(false);
 
   return (
-    <label
-      style={{
-        display: "flex",
-        alignItems: "flex-start",
-        gap: 10,
-        marginBottom: 20,
-        cursor: "pointer",
-      }}
-    >
-      <input
-        type="checkbox"
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
+    <>
+      <label
         style={{
-          width: 15,
-          height: 15,
-          marginTop: 2,
-          flexShrink: 0,
-          accentColor: C,
-        }}
-      />
-      <span
-        style={{
-          fontSize: 11,
-          color: "#666",
-          lineHeight: 1.5,
-          userSelect: "none",
+          display: "flex",
+          alignItems: "flex-start",
+          gap: 10,
+          marginBottom: 20,
+          cursor: "pointer",
         }}
       >
-        {t.consent}
-      </span>
-    </label>
+        <input
+          type="checkbox"
+          checked={checked}
+          onChange={(e) => {
+            if (e.target.checked) {
+              setOpen(true);
+              return;
+            }
+            onChange(false);
+          }}
+          style={{
+            width: 15,
+            height: 15,
+            marginTop: 2,
+            flexShrink: 0,
+            accentColor: C,
+          }}
+        />
+        <span
+          style={{
+            fontSize: 11,
+            color: "#666",
+            lineHeight: 1.5,
+            userSelect: "none",
+          }}
+        >
+          {t.consent}
+        </span>
+      </label>
+
+      {open ? (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="terms-title"
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 50,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 16,
+            background: "rgba(0,0,0,0.35)",
+          }}
+          onClick={closeModal}
+        >
+          <div
+            style={{
+              width: "100%",
+              maxWidth: 420,
+              maxHeight: "80vh",
+              background: "#FFF",
+              borderRadius: 16,
+              border: "1px solid #EBE7DF",
+              boxShadow: "0 12px 40px rgba(0,0,0,0.15)",
+              display: "flex",
+              flexDirection: "column",
+              overflow: "hidden",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ padding: "18px 20px 10px" }}>
+              <h3
+                id="terms-title"
+                style={{
+                  margin: 0,
+                  fontSize: 16,
+                  fontWeight: 700,
+                  color: C,
+                  lineHeight: 1.4,
+                }}
+              >
+                {t.termsTitle}
+              </h3>
+            </div>
+
+            <div
+              ref={bodyRef}
+              style={{
+                padding: "0 20px",
+                overflowY: "auto",
+                flex: 1,
+                minHeight: 0,
+              }}
+            >
+              <p
+                style={{
+                  margin: "0 0 8px",
+                  fontSize: 13,
+                  color: "#4A4842",
+                  lineHeight: 1.7,
+                  whiteSpace: "pre-line",
+                }}
+              >
+                {t.termsBody}
+              </p>
+            </div>
+
+            {!reachedBottom ? (
+              <p
+                style={{
+                  margin: 0,
+                  padding: "8px 20px 0",
+                  fontSize: 12,
+                  color: "#8C8A84",
+                  textAlign: "center",
+                }}
+              >
+                {t.termsScrollHint}
+              </p>
+            ) : null}
+
+            <div
+              style={{
+                display: "flex",
+                gap: 10,
+                padding: 16,
+                borderTop: "1px solid #EBE7DF",
+              }}
+            >
+              <button
+                type="button"
+                onClick={closeModal}
+                style={{
+                  flex: 1,
+                  padding: "11px 0",
+                  borderRadius: 8,
+                  border: "1.2px solid #D5D2C9",
+                  background: "#FFF",
+                  color: "#6B6963",
+                  fontSize: 14,
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  fontFamily: "inherit",
+                }}
+              >
+                {t.termsCancel}
+              </button>
+              <button
+                type="button"
+                disabled={!reachedBottom}
+                onClick={() => {
+                  if (!reachedBottom) return;
+                  onChange(true);
+                  closeModal();
+                }}
+                style={{
+                  flex: 1,
+                  padding: "11px 0",
+                  borderRadius: 8,
+                  border: "none",
+                  background: reachedBottom ? C : "#C5C2B9",
+                  color: "#FFF",
+                  fontSize: 14,
+                  fontWeight: 600,
+                  cursor: reachedBottom ? "pointer" : "not-allowed",
+                  fontFamily: "inherit",
+                  opacity: reachedBottom ? 1 : 0.7,
+                }}
+              >
+                {t.termsAccept}
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </>
   );
 }
 

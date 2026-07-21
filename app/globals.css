@@ -20,6 +20,22 @@ body {
 
 input::placeholder {
   color: #aaa;
+  opacity: 1;
+}
+
+.field-placeholder {
+  line-height: 2;
+}
+
+.field-input {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.field-input,
+textarea.field-input {
+  line-height: 2 !important;
+  overflow: visible;
 }
 
 .brand-section {

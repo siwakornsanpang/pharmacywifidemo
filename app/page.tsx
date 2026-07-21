@@ -43,6 +43,7 @@ export default function LoginPage() {
           placeholder={t.password}
           value={password}
           onChange={setPassword}
+          marginBottom={8}
           rightSlot={
             <button
               type="button"
@@ -63,6 +64,28 @@ export default function LoginPage() {
             </button>
           }
         />
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginBottom: 14,
+          }}
+        >
+          <Link
+            href="/forgot-password"
+            style={{
+              fontSize: 13,
+              fontWeight: 500,
+              color: C,
+              textDecoration: "underline",
+              textUnderlineOffset: 3,
+              lineHeight: 1.8,
+            }}
+          >
+            {t.forgotPassword}
+          </Link>
+        </div>
 
         <ConsentCheckbox checked={agreed} onChange={setAgreed} />
 

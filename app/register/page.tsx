@@ -12,9 +12,7 @@ import {
 import { useLocale } from "../components/LocaleProvider";
 import {
   EmailIcon,
-  GlobeIcon,
   IdCardIcon,
-  PhoneIcon,
   UserIcon,
 } from "../components/icons";
 
@@ -23,10 +21,8 @@ export default function RegisterPage() {
   const [agreed, setAgreed] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [nationalId, setNationalId] = useState("");
-  const [passport, setPassport] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
+  const [idOrPassport, setIdOrPassport] = useState("");
+  const [phoneOrEmail, setPhoneOrEmail] = useState("");
 
   return (
     <AuthShell>
@@ -45,29 +41,15 @@ export default function RegisterPage() {
         />
         <Field
           icon={<IdCardIcon />}
-          placeholder={t.nationalId}
-          value={nationalId}
-          onChange={setNationalId}
-        />
-        <Field
-          icon={<GlobeIcon />}
-          placeholder={t.passport}
-          value={passport}
-          onChange={setPassport}
-        />
-        <Field
-          icon={<PhoneIcon />}
-          type="tel"
-          placeholder={t.phone}
-          value={phone}
-          onChange={setPhone}
+          placeholder={t.idOrPassport}
+          value={idOrPassport}
+          onChange={setIdOrPassport}
         />
         <Field
           icon={<EmailIcon />}
-          type="email"
-          placeholder={t.email}
-          value={email}
-          onChange={setEmail}
+          placeholder={t.phoneOrEmail}
+          value={phoneOrEmail}
+          onChange={setPhoneOrEmail}
         />
 
         <ConsentCheckbox checked={agreed} onChange={setAgreed} />
